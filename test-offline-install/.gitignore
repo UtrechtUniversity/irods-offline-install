@@ -1,0 +1,4 @@
+*.env
+create-local-repo.sh
+*.log
+.vagrant
