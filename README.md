@@ -27,10 +27,10 @@ The default configuration installs the latest version of iRODS, as well as the P
 Postgresql database. If you'd like to customize the list of packages to be installed, adjust the APT_PACKAGES variable in _local-repo.env_
 
 First create the archive of the local repository on an Internet-connected system:
-- Copy the _local-repo.env_ file and the _create-local-repo.sh_ script from to the online system.
+- Copy the _local-repo.env_ file and the _create-local-repo.sh_ script to the online system.
 - If the system does not have a fresh OS install, you might want to check for any irrelevant .deb files in /var/cache/apt/archives that have been downloaded previously. Remove them, so they don't end up in the local repository.
-- Run the script with the location of the _local-repo.env_ file as an argument, e.g. _./create-local-repo.sh /home/user/local-repo.env_. The argument can be omitted, if the _local-repo.env_ file is in the current working directory.
-- This should create an _offline_repo.tar.gz_ file in the root directory.
+- Run the _create-local.repo.sh_ script with the location of the _local-repo.env_ file as an argument, e.g. _./create-local-repo.sh /home/user/local-repo.env_. The argument can be omitted, if the _local-repo.env_ file is in the current working directory.
+- The script should create an _offline_repo.tar.gz_ file in the root directory.
 
 Now install the packages on an offline system:
 - Copy the _offline_repo.tar.gz_ file from the online system to the offline system, as well as the _local-repo.env_ file.
@@ -40,8 +40,8 @@ Now install the packages on an offline system:
 
 # Testing the scripts using Vagrant
 
-- If you'd like to customize the packages to be installed, adjust the the APT_PACKAGES variable in local-repo.env.
-- Run _./prepare-offline-repo.sh_ . This script creates a VM and downloads the required iRODS packages, as well as their dependencies. It copies a tarball containing a local apt repository with the packages to the offline-install directory.
+- If you'd like to customize the packages to be installed, adjust the the APT_PACKAGES variable in _local-repo.env_.
+- Run _./prepare-offline-repo.sh_ . This script creates a VM and downloads the required iRODS packages, as well as their dependencies. It copies a tarball containing a local apt repository with the packages to the _offline-install_ directory.
 - Start the test VM: _cd test-offline-install && vagrant destroy -f && vagrant up_. Vagrant automatically configures the local iRODS repository and installs the iRODS packages.
 - You can log in on the test VM using _vagrant ssh_ to check that the packages have been installed correctly. In order to use iRODS, it is necessary to initialize the database and run the setup script. Please consult the _Installing iRODS_ section of the [iRODS beginner training](https://github.com/irods/irods_training/blob/master/beginner/irods_beginner_training_2019.pdf) for details.
 
