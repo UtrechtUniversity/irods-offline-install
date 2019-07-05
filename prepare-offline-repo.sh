@@ -36,7 +36,8 @@ done
 echo "Copying scripts to Vagrant directories ..."
 cp "$BASEPATH/local-repo.env" "$BASEPATH/vagrant/.env"
 cp "$BASEPATH/local-repo.env" "$BASEPATH/test-offline-install/.env"
-cp "$BASEPATH/create-local-repo.sh" "$BASEPATH/vagrant"
+cp "$BASEPATH/local-repo.env" "$BASEPATH/offline-install"
+
 cd "$BASEPATH/vagrant"
 
 echo "Checking if VM has already been provisioned ..."
@@ -57,31 +58,5 @@ vagrant up
 
 echo "Copying offline repository archive ..."
 vagrant scp vm:/offline_repo.tar.gz "$BASEPATH/offline-install"
-
-echo "Creating offline installation script."
-cat << ENDOFSCRIPT > "$BASEPATH/offline-install/install-offline.sh"
-#!/bin/bash
-
-set -e
-set -o pipefail
-set -u
-
-REPOFILE=\${1:-/tmp/offline_repo.tar.gz}
-
-LOCALREPODIR=/irodsrepo
-
-echo "Extracting local repository ..."
-sudo mkdir -p "\$LOCALREPODIR"
-cd "\$LOCALREPODIR"
-sudo tar xvfz \$REPOFILE
-
-echo "Registering local repository ..."
-echo "deb [trusted=yes] file:\$LOCALREPODIR ./" | sudo tee /etc/apt/sources.list.d/irods-local.list
-sudo apt-get update
-
-echo "Installing packages ..."
-sudo apt-get -y install $APT_PACKAGES
-
-ENDOFSCRIPT
 
 echo "Script finished. Please copy the contents of $BASEPATH/offline-install to mobile media for installation on another computer."

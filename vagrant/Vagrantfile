@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
       v.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 1000 ]
     end
     vm.vm.provision "file", source: "../local-repo.env", destination: "/tmp/local-repo.env"
-    vm.vm.provision :shell, :path => 'create-local-repo.sh'
+    vm.vm.provision :shell, :path => '../create-local-repo.sh', :args => "/tmp/local-repo.env"
   end
 
 end

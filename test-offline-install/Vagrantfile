@@ -14,10 +14,10 @@ Vagrant.configure("2") do |config|
       # Copied from https://stackoverflow.com/questions/19490652/how-to-sync-time-on-host-wake-up-within-virtualbox
       v.customize [ "guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 1000 ]
     end
-    vm.vm.provision "file", source: "local-repo.env", destination: "/tmp/local-repo.env"
+    vm.vm.provision "file", source: "../local-repo.env", destination: "/tmp/local-repo.env"
     vm.vm.provision "file", source: "../offline-install/offline_repo.tar.gz", destination: "/tmp/offline_repo.tar.gz"
     vm.vm.provision :shell, :path => 'remove-regular-repos.sh'
-    vm.vm.provision :shell, :path => '../offline-install/install-offline.sh', :args => "/tmp/offline_repo.tar.gz"
+    vm.vm.provision :shell, :path => '../offline-install/install-offline.sh', :args => "/tmp/offline_repo.tar.gz /tmp/local-repo.env"
   end
 
 end

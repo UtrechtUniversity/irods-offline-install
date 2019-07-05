@@ -10,11 +10,11 @@ ARCHIVE_FILE=/offline_repo.tar.gz
 ARCHIVE_DIRECTORY=/var/cache/apt/archives
 TEMPDIR=/tmp/debfiles
 
-if [ -f ./local-repo.env ]
-then source ./local-repo.env
-elif [ -f /tmp/local-repo.env ]
-then source /tmp/local-repo.env
-else echo "Error: local-repo.env file not found." && exit 1
+SETTINGSFILE=${1:-./local-repo.env}
+
+if [ -f "$SETTINGSFILE" ]
+then source "$SETTINGSFILE"
+else echo "Error: settings file $SETTINGSFILE not found." && exit 1
 fi
 
 echo "Downloading and installing iRODS repository signing key ..."
